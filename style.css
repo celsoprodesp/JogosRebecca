@@ -1,13 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@700;900&display=swap');
 
 :root {
-  --primary-color: #ff8ab4; /* Sweet Pink */
-  --secondary-color: #70d6ff; /* Sky Blue */
-  --accent-color: #ffd670; /* Sunshine Yellow */
-  --bg-color: #fff9fb;
-  --text-color: #4a4a4a;
-  --btn-shadow: 0 4px 0 #e677a0;
-  --btn-active-shadow: 0 2px 0 #e677a0;
+  /* Paleta Girl Power */
+  --pink-hot: #FF4DA6;
+  --pink-dark: #CC007A;
+  --pink-light: #FFB3DA;
+  --lavender: #C084FC;
+  --lavender-dark: #9333EA;
+  --lavender-light: #E9D5FF;
+  --magenta: #E040FB;
+  --gold: #FFD700;
+  --gold-dark: #D4A500;
+  --mint: #86EFAC;
+  --mint-dark: #22C55E;
+  --bg-sky: #FAD7F7;
+  --bg-sky2: #F0ABFC;
+  --white: #FFFFFF;
+  
+  --text-color: #3d1a56;
+  --btn-shadow: 0 8px 0 rgba(0,0,0,0.2), inset 0 3px 0 rgba(255,255,255,0.4);
+  --btn-active-shadow: 0 2px 0 rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.4);
 }
 
 * {
@@ -18,16 +30,38 @@
 
 body {
   font-family: 'Quicksand', sans-serif;
-  background-color: var(--bg-color);
+  background-image: url('bg_garden.png');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  font-weight: 700;
 }
 
-h1, h2, h3 {
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 240, 255, 0.25);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.portal-container {
+  position: relative;
+  z-index: 1;
+}
+
+
+h1, h2, h3, .logo {
   font-family: 'Bubblegum Sans', cursive;
+  letter-spacing: 2px;
 }
 
 .portal-container {
@@ -39,19 +73,35 @@ h1, h2, h3 {
 
 header {
   margin-bottom: 50px;
-  animation: bounceIn 1s;
+  animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logo {
-  font-size: 4rem;
-  color: var(--primary-color);
-  text-shadow: 3px 3px 0 #fff, 6px 6px 0 var(--secondary-color);
+  font-size: 5rem;
+  color: var(--gold);
+  text-shadow: 
+    -3px -3px 0 var(--pink-hot),  
+    3px -3px 0 var(--pink-hot),
+    -3px 3px 0 var(--pink-hot),
+    3px 3px 0 var(--pink-hot),
+    0 10px 0 var(--pink-dark),
+    0 15px 15px rgba(0,0,0,0.3);
   margin-bottom: 10px;
+  transform: rotate(-2deg);
+  display: inline-block;
 }
 
 .subtitle {
-  font-size: 1.5rem;
-  color: #888;
+  font-size: 1.8rem;
+  color: white;
+  text-shadow: 2px 2px 0 var(--lavender-dark);
+  background: var(--pink-hot);
+  display: inline-block;
+  padding: 8px 24px;
+  border-radius: 30px;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 var(--pink-dark), 0 10px 10px rgba(0,0,0,0.2);
+  transform: rotate(1deg);
 }
 
 .games-grid {
@@ -62,12 +112,12 @@ header {
 }
 
 .game-card {
-  background: white;
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2ff 100%);
   border-radius: 30px;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-  border: 4px solid var(--secondary-color);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  padding: 30px 20px;
+  box-shadow: 0 15px 0 rgba(0,0,0,0.1), inset 0 -4px 0 rgba(0,0,0,0.05);
+  border: 6px solid var(--lavender);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), margin-top 0.2s;
   cursor: pointer;
   text-decoration: none;
   display: flex;
@@ -75,47 +125,76 @@ header {
   align-items: center;
   position: relative;
   overflow: hidden;
+  transform-origin: bottom;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 100%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 30%);
+  pointer-events: none;
 }
 
 .game-card:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  border-color: var(--primary-color);
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--pink-hot);
+}
+
+.game-card:active {
+  transform: translateY(10px) scale(0.98);
+  box-shadow: 0 5px 0 rgba(0,0,0,0.1), inset 0 -4px 0 rgba(0,0,0,0.05);
 }
 
 .game-icon {
-  font-size: 5rem;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+  font-size: 5.5rem;
+  margin-bottom: 25px;
+  filter: drop-shadow(0 10px 5px rgba(0,0,0,0.2));
+  transform: scale(1);
+  transition: transform 0.3s;
+}
+
+.game-card:hover .game-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .game-card h2 {
-  font-size: 2.2rem;
-  color: var(--text-color);
+  font-size: 2.5rem;
+  color: var(--lavender-dark);
+  text-shadow: 2px 2px 0px white;
   margin-bottom: 15px;
 }
 
 .play-btn {
-  background: var(--primary-color);
+  background: linear-gradient(to bottom, var(--pink-hot), var(--pink-dark));
   color: white;
-  border: none;
-  padding: 12px 35px;
+  border: 4px solid white;
+  padding: 15px 35px;
   border-radius: 50px;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-family: 'Bubblegum Sans', cursive;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
   box-shadow: var(--btn-shadow);
-  transition: all 0.2s;
+  transition: all 0.1s;
+  margin-top: auto;
+  position: relative;
 }
 
 .game-card:hover .play-btn {
-  background: var(--secondary-color);
-  box-shadow: 0 4px 0 #5fccf5;
+  background: linear-gradient(to bottom, #FF70BF, var(--pink-hot));
+}
+
+.game-card:active .play-btn {
+  box-shadow: var(--btn-active-shadow);
+  transform: translateY(6px);
 }
 
 /* Animations */
 @keyframes bounceIn {
   0% { transform: scale(0.3); opacity: 0; }
-  50% { transform: scale(1.05); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 1; }
   70% { transform: scale(0.9); }
   100% { transform: scale(1); }
 }
@@ -127,6 +206,16 @@ header {
 
 /* Mobile responsive */
 @media (max-width: 600px) {
-  .logo { font-size: 2.5rem; }
+  .logo { font-size: 3.5rem; }
   .games-grid { grid-template-columns: 1fr; }
+  .subtitle { font-size: 1.2rem; }
+}
+
+@media (max-width: 400px) {
+  .logo { font-size: 2.8rem; }
+  .subtitle { font-size: 1rem; padding: 6px 16px; }
+  .portal-container { padding: 20px 10px; }
+  .game-icon { font-size: 4rem; margin-bottom: 15px; }
+  .game-card h2 { font-size: 2rem; }
+  .play-btn { font-size: 1.2rem; padding: 12px 24px; }
 }
