@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Forca Animado 🔠</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 8px solid var(--accent-color);
+        }
+
+        .hangman-box {
+            height: 300px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hangman-svg {
+            width: 200px;
+            height: 250px;
+        }
+
+        .hangman-part {
+            stroke: #4a4a4a;
+            stroke-width: 6;
+            stroke-linecap: round;
+            fill: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.3s ease-out;
+        }
+
+        .hangman-part.visible {
+            opacity: 1;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+          from { transform: scale(0.5); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+
+        .word-display {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            margin-bottom: 40px;
+            font-family: 'Bubblegum Sans', cursive;
+            color: var(--primary-color);
+        }
+
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .key {
+            background: white;
+            border: 3px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 var(--secondary-color);
+            min-width: 50px;
+        }
+
+        .key:hover:not(:disabled) {
+            transform: scale(1.1);
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .key:disabled {
+            opacity: 0.4;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .key.correct {
+            background: #a8e6cf;
+            border-color: #56c596;
+            color: white;
+            box-shadow: 0 4px 0 #56c596;
+        }
+
+        .key.wrong {
+            background: #ffaaa5;
+            border-color: #ff8b94;
+            color: white;
+            box-shadow: 0 4px 0 #ff8b94;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            font-weight: bold;
+            min-height: 2em;
+        }
+
+        .category-hint {
+            background: var(--accent-color);
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #d4a017;
+        }
+
+        .reset-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--btn-shadow);
+            display: none;
+        }
+
+        .reset-btn:hover {
+            transform: scale(1.05);
+            background: #ff6098;
+        }
+
+        .back-link {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          text-decoration: none;
+          color: var(--primary-color);
+          font-weight: bold;
+          font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Voltar</a>
+    
+    <div class="game-container">
+        <h1 style="color: var(--primary-color); margin-bottom: 10px;">🌟 Jogo da Forca 🌟</h1>
+        <div id="category" class="category-hint">Carregando...</div>
+
+        <div class="hangman-box">
+            <svg class="hangman-svg" viewBox="0 0 200 250">
+                <!-- Base -->
+                <line x1="20" y1="230" x2="160" y2="230" class="hangman-part base" style="opacity: 1;" />
+                <!-- Vertical -->
+                <line x1="50" y1="230" x2="50" y2="20" class="hangman-part pole-v" />
+                <!-- Horizontal -->
+                <line x1="50" y1="20" x2="140" y2="20" class="hangman-part pole-h" />
+                <!-- Rope -->
+                <line x1="140" y1="20" x2="140" y2="50" class="hangman-part rope" />
+                <!-- Head -->
+                <circle cx="140" cy="80" r="30" class="hangman-part head" />
+                <!-- Body -->
+                <line x1="140" y1="110" x2="140" y2="180" class="hangman-part body" />
+                <!-- Left Arm -->
+                <line x1="140" y1="120" x2="110" y2="150" class="hangman-part arm-l" />
+                <!-- Right Arm -->
+                <line x1="140" y1="120" x2="170" y2="150" class="hangman-part arm-r" />
+                <!-- Left Leg -->
+                <line x1="140" y1="180" x2="110" y2="220" class="hangman-part leg-l" />
+                <!-- Right Leg -->
+                <line x1="140" y1="180" x2="170" y2="220" class="hangman-part leg-r" />
+            </svg>
+        </div>
+
+        <div id="wordDisplay" class="word-display">_ _ _ _ _</div>
+        
+        <div class="keyboard" id="keyboard">
+            <!-- Botões das letras inseridos via JS -->
+        </div>
+
+        <div id="message" class="message"></div>
+        <button id="resetBtn" class="reset-btn">Jogar de Novo! ✨</button>
+    </div>
+
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="forca.js"></script>
+</body>
+</html>
