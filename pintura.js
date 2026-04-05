@@ -23,6 +23,7 @@ const colors = [
     '#EAB308', // Gold
     '#F97316', // Orange
     '#EF4444', // Red
+    '#8B4513', // Brown
     '#000000', // Black
 ];
 
