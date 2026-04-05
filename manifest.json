@@ -1,0 +1,17 @@
+{
+  "name": "Portal de Jogos Mágicos",
+  "short_name": "Portal Mágico",
+  "description": "Um portal de jogos educativos e divertidos para crianças.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFC1E3",
+  "theme_color": "#ff4d94",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
