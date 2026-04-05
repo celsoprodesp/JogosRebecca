@@ -149,7 +149,7 @@
         .doll-wrapper {
             position: relative;
             height: 320px;
-            width: 260px;
+            width: 320px;
             display: flex;
             align-items: flex-end;
         }
@@ -292,21 +292,23 @@
             box-shadow: 0 4px 10px rgba(150,0,100,0.25);
         }
 
-        /* ── LAYOUT: centralizado total ─────────────── */
+        /* ── LAYOUT: centralizado total (BONECA NO TOPO) ─────────────── */
         .game-inner {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 20px;
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            justify-items: center !important;
+            gap: 40px !important;
             width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .game-left, .game-right {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100% !important;
+            max-width: 700px !important;
+            display: grid !important;
+            justify-items: center !important;
+            text-align: center !important;
         }
 
         .hangman-box {
@@ -314,6 +316,7 @@
             justify-content: center !important;
             align-items: center !important;
             width: 100%;
+            margin-bottom: 0 !important;
         }
 
         @media (max-width: 700px) {
@@ -328,9 +331,30 @@
             #mask-5 { bottom: 176px; height: 40px; }
             #mask-6 { bottom: 216px; height: 25px; }
             #mask-7 { bottom: 241px; height: 14px; }
-            .doll-wrapper { height: 255px; width: 200px; }
+            .doll-wrapper { height: 255px; width: 255px; }
             .game-title { font-size: 2.4rem; }
             .word-display { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 450px) {
+            .game-container { padding: 20px 15px; margin-top: 50px; }
+            .hangman-box { height: 210px; }
+            .doll-img { height: 200px; }
+            .doll-wrapper { height: 200px; width: 200px; }
+            #mask-1 { height: 32px; }
+            #mask-2 { bottom: 32px; height: 35px; }
+            #mask-3 { bottom: 67px; height: 38px; }
+            #mask-4 { bottom: 105px; height: 35px; }
+            #mask-5 { bottom: 140px; height: 32px; }
+            #mask-6 { bottom: 172px; height: 28px; }
+            .game-title { font-size: 1.8rem; margin-bottom: 10px; }
+            .category-hint { font-size: 0.9rem; padding: 5px 16px; margin-bottom: 20px; }
+            .word-display { font-size: 1.5rem; letter-spacing: 8px; margin-bottom: 20px; }
+            .key { min-width: 40px; padding: 6px 8px; font-size: 1rem; border-width: 2px; border-radius: 8px;}
+            .keyboard { gap: 6px; }
+            .message { font-size: 1.3rem; }
+            .reset-btn { font-size: 1rem; padding: 10px 20px; }
+            .back-link { font-size: 0.9rem; padding: 6px 14px; top: 10px; left: 10px; }
         }
     </style>
 </head>
@@ -370,9 +394,12 @@
                 <button id="resetBtn" class="reset-btn">Jogar de Novo! 💖</button>
             </div>
         </div>
+        <footer style="margin-top: 40px; color: #CC007A; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem;">
+            Feito com ❤️ pelo Papai para você!
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="forca.js?v=2"></script>
+    <script src="forca.js?v=4"></script>
 </body>
 </html>

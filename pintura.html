@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pintura Mágica 🎨</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── INHERITED FROM FORCA THEME ── */
+        .back-link {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #FF4DA6, #9333EA);
+            border: 3px solid rgba(255,255,255,0.8);
+            padding: 8px 20px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(150,0,100,0.3);
+            font-family: 'Bubblegum Sans', cursive;
+            transition: all 0.15s;
+            z-index: 100;
+        }
+        .back-link:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .back-link:active { transform: translateY(2px); }
+
+        .game-container {
+            max-width: 960px;
+            margin: 70px auto 40px;
+            padding: 30px 28px 35px;
+            background: rgba(255, 248, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            box-shadow:
+                0 8px 32px rgba(150, 0, 150, 0.18),
+                0 2px 8px rgba(255, 255, 255, 0.6) inset;
+            text-align: center;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+        }
+
+        .game-title {
+            color: #FFD700;
+            text-shadow:
+                2px 2px 0 #FF4DA6,
+                -1px -1px 0 #9333EA,
+                0 4px 0 #CC007A;
+            margin-bottom: 16px;
+            font-size: 3.2rem;
+            font-family: 'Bubblegum Sans', cursive;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+        }
+
+        /* Pintura specific styles */
+        .paint-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .canvas-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            touch-action: none; /* Prevent scrolling when drawing on mobile */
+        }
+
+        #paintCanvas {
+            cursor: crosshair;
+            display: block;
+            background: white;
+        }
+
+        .tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            background: rgba(255, 248, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(150, 0, 150, 0.1);
+            border: 3px solid white;
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-group-divider {
+            width: 2px;
+            background: rgba(200, 100, 200, 0.3);
+            border-radius: 2px;
+        }
+
+        /* Color Buttons */
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-btn.active {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 3px var(--lavender), 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Actions */
+        .action-btn {
+            background: linear-gradient(to bottom, #fff 0%, #fce7ff 100%);
+            border: 2px solid #C084FC;
+            color: #7C3AED;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: 'Bubblegum Sans', cursive;
+            cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 0 4px 0 #9333EA;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(to bottom, #fce7ff, #e9d5ff);
+        }
+        
+        .action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #9333EA;
+        }
+
+        .action-btn.active {
+            background: linear-gradient(to bottom, var(--pink-hot), var(--pink-dark));
+            color: white;
+            border-color: var(--pink-dark);
+            box-shadow: 0 2px 0 #990062;
+            transform: translateY(2px);
+        }
+
+        /* Size picker */
+        .size-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 1.2rem;
+        }
+
+        input[type="range"] {
+            accent-color: var(--pink-hot);
+            cursor: pointer;
+        }
+
+        /* Coloring book gallery */
+        .gallery {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            max-width: 100%;
+            padding: 10px;
+        }
+
+        .gallery-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            border: 4px solid white;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, border-color 0.2s;
+            background-color: white;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--pink-hot);
+        }
+        
+        .gallery-item.active {
+            border-color: var(--pink-hot);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 77, 166, 0.4);
+        }
+
+        .coloring-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through to canvas! */
+            mix-blend-mode: multiply; /* Keep black lines, background transparent */
+            opacity: 0.9;
+        }
+
+        /* Blank option logic */
+        .gallery-item.blank-option {
+            background: linear-gradient(135deg, #fff, #fce7ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #C084FC;
+        }
+
+        @media (max-width: 700px) {
+            .tools { flex-direction: column; align-items: center; }
+            .canvas-wrapper { width: 100%; }
+            #paintCanvas { width: 100%; height: auto; }
+            .gallery-item { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Voltar</a>
+
+    <div class="game-container" style="max-width: 1000px; padding: 20px;">
+        <h1 class="game-title" style="margin-bottom: 5px;">🎨 Livro de Colorir 🎨</h1>
+        <p style="font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem; color: #9333EA; margin-bottom: 10px;">Escolha um desenho e pinte com os dedinhos!</p>
+
+        <!-- Galeria de Modelos Bíblicos -->
+        <div class="gallery" id="drawingGallery">
+            <div class="gallery-item blank-option active" data-img="" title="Folha em Branco">📃</div>
+            <img src="arca_noe.png" class="gallery-item" data-img="arca_noe.png" alt="Arca de Noé" title="Arca de Noé">
+            <img src="jonas_baleia.png" class="gallery-item" data-img="jonas_baleia.png" alt="Jonas e a Baleia" title="Jonas e a Baleia">
+            <img src="davi_golias.png" class="gallery-item" data-img="davi_golias.png" alt="Davi e Golias" title="Davi e Golias">
+            <img src="moises_mar.png" class="gallery-item" data-img="moises_mar.png" alt="Moisés Abrindo o Mar" title="Moisés Abrindo o Mar">
+        </div>
+
+        <div class="paint-container">
+            <!-- Ferramentas -->
+            <div class="tools">
+                <div class="tool-group" id="colorPalette">
+                    <!-- Colors injected by JS -->
+                </div>
+                
+                <div class="tool-group-divider"></div>
+                
+                <div class="tool-group">
+                    <div class="size-picker">
+                        Tamanho:
+                        <input type="range" id="brushSize" min="2" max="40" value="15">
+                    </div>
+                </div>
+
+                <div class="tool-group-divider"></div>
+
+                <div class="tool-group">
+                    <button class="action-btn" id="eraserBtn">🗑️ Borracha</button>
+                    <button class="action-btn" id="clearBtn">✨ Limpar</button>
+                </div>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-wrapper">
+                <canvas id="paintCanvas" width="800" height="500"></canvas>
+                <!-- O segredo: a imagem fica em cima, a pintura em baixo -->
+                <img id="overlayImg" class="coloring-overlay" src="" style="display: none;">
+            </div>
+        </div>
+
+        <footer style="margin-top: 40px; color: #CC007A; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem;">
+            Feito com ❤️ pelo Papai para você!
+        </footer>
+    </div>
+
+    <!-- Canvas Confetti for winning effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="pintura.js"></script>
+</body>
+</html>
