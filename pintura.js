@@ -17,6 +17,7 @@ const colors = [
     '#9333EA', // Purple
     '#86EFAC', // Mint
     '#22C55E', // Green
+    '#BAE6FD', // Very Light Blue
     '#38BDF8', // Light Blue
     '#3B82F6', // Blue
     '#FDE047', // Light Yellow
