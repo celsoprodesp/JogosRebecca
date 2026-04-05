@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Forca Mágico 🌸</title>
+    <title>Jogo das Letras 🌸</title>
     <link rel="stylesheet" href="style.css">
     <style>
         /* ============================================================
@@ -31,7 +32,10 @@
         }
 
         /* All direct body children above the overlay */
-        body > * { position: relative; z-index: 1; }
+        body>* {
+            position: relative;
+            z-index: 1;
+        }
 
         /* ── BACK LINK ─────────────────────────────────────────── */
         .back-link {
@@ -43,16 +47,23 @@
             font-weight: bold;
             font-size: 1.1rem;
             background: linear-gradient(135deg, #FF4DA6, #9333EA);
-            border: 3px solid rgba(255,255,255,0.8);
+            border: 3px solid rgba(255, 255, 255, 0.8);
             padding: 8px 20px;
             border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(150,0,100,0.3);
+            box-shadow: 0 5px 15px rgba(150, 0, 100, 0.3);
             font-family: 'Bubblegum Sans', cursive;
             transition: all 0.15s;
             z-index: 100;
         }
-        .back-link:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .back-link:active { transform: translateY(2px); }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .back-link:active {
+            transform: translateY(2px);
+        }
 
         /* ── MAIN GAME CARD ────────────────────────────────────── */
         .game-container {
@@ -80,7 +91,7 @@
             margin-bottom: 16px;
             font-size: 3.2rem;
             font-family: 'Bubblegum Sans', cursive;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
         }
 
         /* ── CATEGORY HINT ─────────────────────────────────────── */
@@ -94,8 +105,8 @@
             letter-spacing: 1px;
             margin-bottom: 14px;
             color: white;
-            border: 3px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 12px rgba(150,0,100,0.25);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(150, 0, 100, 0.25);
             text-transform: uppercase;
         }
 
@@ -106,11 +117,13 @@
             gap: 6px;
             margin-bottom: 14px;
         }
+
         .heart {
             font-size: 2rem;
             transition: transform 0.3s, filter 0.3s;
             filter: drop-shadow(0 2px 4px rgba(220, 0, 100, 0.4));
         }
+
         .heart.lost {
             filter: grayscale(1) opacity(0.3);
             transform: scale(0.75);
@@ -157,16 +170,18 @@
         /* Each mask strip covers part of the doll */
         .mask-strip {
             position: absolute;
-            left: 0; right: 0;
+            left: 0;
+            right: 0;
             border-radius: 16px;
             transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                        transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 3;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
         }
+
         .mask-strip.revealed {
             opacity: 0;
             transform: scale(1.25);
@@ -174,19 +189,48 @@
         }
 
         /* Zone heights (bottom to top of a 320px image) for 6 steps */
-        #mask-1 { bottom:   0; height: 54px;  background: linear-gradient(135deg, rgba(255,180,220,0.92), rgba(200,130,255,0.92)); }
-        #mask-2 { bottom:  54px; height: 54px;  background: linear-gradient(135deg, rgba(255,150,220,0.92), rgba(180,100,255,0.92)); }
-        #mask-3 { bottom: 108px; height: 54px;  background: linear-gradient(135deg, rgba(255,120,200,0.92), rgba(160,80,240,0.92));  }
-        #mask-4 { bottom: 162px; height: 54px;  background: linear-gradient(135deg, rgba(255,90,180,0.92),  rgba(140,60,220,0.92));  }
-        #mask-5 { bottom: 216px; height: 54px;  background: linear-gradient(135deg, rgba(255,60,160,0.92),  rgba(120,40,200,0.92));  }
-        #mask-6 { bottom: 270px; height: 50px;  background: linear-gradient(135deg, rgba(240,40,140,0.92),  rgba(100,20,180,0.92));  }
+        #mask-1 {
+            bottom: 0;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(255, 180, 220, 0.92), rgba(200, 130, 255, 0.92));
+        }
+
+        #mask-2 {
+            bottom: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(255, 150, 220, 0.92), rgba(180, 100, 255, 0.92));
+        }
+
+        #mask-3 {
+            bottom: 108px;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(255, 120, 200, 0.92), rgba(160, 80, 240, 0.92));
+        }
+
+        #mask-4 {
+            bottom: 162px;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(255, 90, 180, 0.92), rgba(140, 60, 220, 0.92));
+        }
+
+        #mask-5 {
+            bottom: 216px;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(255, 60, 160, 0.92), rgba(120, 40, 200, 0.92));
+        }
+
+        #mask-6 {
+            bottom: 270px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(240, 40, 140, 0.92), rgba(100, 20, 180, 0.92));
+        }
 
         /* Question marks on masks */
         .mask-strip::after {
             content: '?';
             font-family: 'Bubblegum Sans', cursive;
             font-size: 1.8rem;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.6);
         }
 
         /* ── WORD DISPLAY ──────────────────────────────────────── */
@@ -196,7 +240,7 @@
             margin-bottom: 28px;
             font-family: 'Bubblegum Sans', cursive;
             color: #7C3AED;
-            text-shadow: 2px 2px 0 white, 4px 4px 0 rgba(0,0,0,0.08);
+            text-shadow: 2px 2px 0 white, 4px 4px 0 rgba(0, 0, 0, 0.08);
         }
 
         /* ── KEYBOARD ──────────────────────────────────────────── */
@@ -224,36 +268,47 @@
             min-width: 52px;
             text-transform: uppercase;
         }
+
         .key:hover:not(:disabled) {
             transform: scale(1.08) translateY(-2px);
             background: linear-gradient(to bottom, #fce7ff, #e9d5ff);
         }
+
         .key:active:not(:disabled) {
             transform: translateY(3px);
             box-shadow: 0 2px 0 #9333EA;
         }
+
         .key:disabled {
             cursor: default;
             transform: translateY(3px);
             box-shadow: 0 2px 0 #9333EA;
             opacity: 0.55;
         }
+
         .key.correct {
             background: linear-gradient(to bottom, #86efac, #4ade80);
             border-color: #15803d;
             color: white;
             box-shadow: 0 5px 0 #15803d;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
         }
-        .key.correct:disabled { box-shadow: 0 2px 0 #15803d; }
+
+        .key.correct:disabled {
+            box-shadow: 0 2px 0 #15803d;
+        }
+
         .key.wrong {
             background: linear-gradient(to bottom, #FF4DA6, #CC007A);
             border-color: #CC007A;
             color: white;
             box-shadow: 0 5px 0 #990062;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
         }
-        .key.wrong:disabled { box-shadow: 0 2px 0 #990062; }
+
+        .key.wrong:disabled {
+            box-shadow: 0 2px 0 #990062;
+        }
 
         /* ── MESSAGE ───────────────────────────────────────────── */
         .message {
@@ -272,24 +327,26 @@
             font-size: 1.4rem;
             background: linear-gradient(135deg, #FF4DA6, #9333EA);
             color: white;
-            border: 4px solid rgba(255,255,255,0.8);
+            border: 4px solid rgba(255, 255, 255, 0.8);
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(150, 0, 100, 0.25);
             font-family: 'Bubblegum Sans', cursive;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
             display: none;
             transition: all 0.15s;
         }
+
         .reset-btn:hover {
             transform: translateY(-2px);
             filter: brightness(1.08);
         }
+
         .reset-btn:active {
             transform: translateY(4px);
-            box-shadow: 0 4px 10px rgba(150,0,100,0.25);
+            box-shadow: 0 4px 10px rgba(150, 0, 100, 0.25);
         }
 
         /* ── LAYOUT: centralizado total (BONECA NO TOPO) ─────────────── */
@@ -303,7 +360,8 @@
             margin: 0 auto;
         }
 
-        .game-left, .game-right {
+        .game-left,
+        .game-right {
             width: 100% !important;
             max-width: 700px !important;
             display: grid !important;
@@ -320,44 +378,167 @@
         }
 
         @media (max-width: 700px) {
-            .game-inner { flex-direction: column; align-items: center; }
-            .game-left { flex: unset; }
-            .hangman-box { height: 260px; }
-            .doll-img { height: 250px; }
-            #mask-1 { height: 40px; }
-            #mask-2 { bottom: 40px; height: 44px; }
-            #mask-3 { bottom: 84px; height: 48px; }
-            #mask-4 { bottom: 132px; height: 44px; }
-            #mask-5 { bottom: 176px; height: 40px; }
-            #mask-6 { bottom: 216px; height: 25px; }
-            #mask-7 { bottom: 241px; height: 14px; }
-            .doll-wrapper { height: 255px; width: 255px; }
-            .game-title { font-size: 2.4rem; }
-            .word-display { font-size: 2.2rem; }
+            .game-inner {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .game-left {
+                flex: unset;
+            }
+
+            .hangman-box {
+                height: 260px;
+            }
+
+            .doll-img {
+                height: 250px;
+            }
+
+            #mask-1 {
+                height: 40px;
+            }
+
+            #mask-2 {
+                bottom: 40px;
+                height: 44px;
+            }
+
+            #mask-3 {
+                bottom: 84px;
+                height: 48px;
+            }
+
+            #mask-4 {
+                bottom: 132px;
+                height: 44px;
+            }
+
+            #mask-5 {
+                bottom: 176px;
+                height: 40px;
+            }
+
+            #mask-6 {
+                bottom: 216px;
+                height: 25px;
+            }
+
+            #mask-7 {
+                bottom: 241px;
+                height: 14px;
+            }
+
+            .doll-wrapper {
+                height: 255px;
+                width: 255px;
+            }
+
+            .game-title {
+                font-size: 2.4rem;
+            }
+
+            .word-display {
+                font-size: 2.2rem;
+            }
         }
 
         @media (max-width: 450px) {
-            .game-container { padding: 20px 15px; margin-top: 50px; }
-            .hangman-box { height: 210px; }
-            .doll-img { height: 200px; }
-            .doll-wrapper { height: 200px; width: 200px; }
-            #mask-1 { height: 32px; }
-            #mask-2 { bottom: 32px; height: 35px; }
-            #mask-3 { bottom: 67px; height: 38px; }
-            #mask-4 { bottom: 105px; height: 35px; }
-            #mask-5 { bottom: 140px; height: 32px; }
-            #mask-6 { bottom: 172px; height: 28px; }
-            .game-title { font-size: 1.8rem; margin-bottom: 10px; }
-            .category-hint { font-size: 0.9rem; padding: 5px 16px; margin-bottom: 20px; }
-            .word-display { font-size: 1.5rem; letter-spacing: 8px; margin-bottom: 20px; }
-            .key { min-width: 40px; padding: 6px 8px; font-size: 1rem; border-width: 2px; border-radius: 8px;}
-            .keyboard { gap: 6px; }
-            .message { font-size: 1.3rem; }
-            .reset-btn { font-size: 1rem; padding: 10px 20px; }
-            .back-link { font-size: 0.9rem; padding: 6px 14px; top: 10px; left: 10px; }
+            .game-container {
+                padding: 20px 15px;
+                margin-top: 50px;
+            }
+
+            .hangman-box {
+                height: 210px;
+            }
+
+            .doll-img {
+                height: 200px;
+            }
+
+            .doll-wrapper {
+                height: 200px;
+                width: 200px;
+            }
+
+            #mask-1 {
+                height: 32px;
+            }
+
+            #mask-2 {
+                bottom: 32px;
+                height: 35px;
+            }
+
+            #mask-3 {
+                bottom: 67px;
+                height: 38px;
+            }
+
+            #mask-4 {
+                bottom: 105px;
+                height: 35px;
+            }
+
+            #mask-5 {
+                bottom: 140px;
+                height: 32px;
+            }
+
+            #mask-6 {
+                bottom: 172px;
+                height: 28px;
+            }
+
+            .game-title {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+
+            .category-hint {
+                font-size: 0.9rem;
+                padding: 5px 16px;
+                margin-bottom: 20px;
+            }
+
+            .word-display {
+                font-size: 1.5rem;
+                letter-spacing: 8px;
+                margin-bottom: 20px;
+            }
+
+            .key {
+                min-width: 40px;
+                padding: 6px 8px;
+                font-size: 1rem;
+                border-width: 2px;
+                border-radius: 8px;
+            }
+
+            .keyboard {
+                gap: 6px;
+            }
+
+            .message {
+                font-size: 1.3rem;
+            }
+
+            .reset-btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+
+            .back-link {
+                font-size: 0.9rem;
+                padding: 6px 14px;
+                top: 10px;
+                left: 10px;
+            }
         }
     </style>
 </head>
+
 <body>
     <a href="index.html" class="back-link">← Voltar</a>
 
@@ -371,7 +552,7 @@
                 <div class="hangman-box">
                     <div class="doll-wrapper">
                         <!-- The doll itself -->
-                        <img src="doll.png" class="doll-img" alt="Boneca" id="dollImg"/>
+                        <img src="doll.png" class="doll-img" alt="Boneca" id="dollImg" />
 
                         <!-- Mystery masks — covering zones from bottom to top -->
                         <div class="mask-strip" id="mask-1"></div>
@@ -402,4 +583,5 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="forca.js?v=4"></script>
 </body>
+
 </html>
