@@ -229,10 +229,26 @@
         }
 
         @media (max-width: 700px) {
-            .tools { flex-direction: column; align-items: center; }
+            .tools { flex-direction: column; align-items: center; gap: 10px; padding: 10px; }
             .canvas-wrapper { width: 100%; }
             #paintCanvas { width: 100%; height: auto; }
             .gallery-item { width: 60px; height: 60px; }
+            .game-container { margin-top: 60px; padding: 15px; }
+            .game-title { font-size: 2.4rem; }
+        }
+
+        @media (max-width: 450px) {
+            .game-container { border-radius: 20px; padding: 10px; border-width: 3px; margin-top: 50px; }
+            .game-title { font-size: 1.8rem; }
+            .gallery { gap: 10px; padding: 5px; }
+            .gallery-item { width: 50px; height: 50px; }
+            .gallery-item.blank-option { font-size: 1.3rem; }
+            .color-btn { width: 30px; height: 30px; }
+            .action-btn { font-size: 0.9rem; padding: 6px 12px; }
+            .size-picker { font-size: 1rem; }
+            .tool-group { flex-wrap: wrap; justify-content: center; }
+            p { font-size: 1rem !important; }
+            .back-link { font-size: 0.9rem; padding: 6px 14px; top: 10px; left: 10px; }
         }
     </style>
 </head>
