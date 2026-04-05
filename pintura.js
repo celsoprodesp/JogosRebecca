@@ -39,7 +39,7 @@ function initCanvas() {
     // Fill with white background initially
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Set initial brush properties
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
@@ -55,7 +55,7 @@ function buildColorPalette() {
         const btn = document.createElement('div');
         btn.classList.add('color-btn');
         btn.style.backgroundColor = color;
-        
+
         // Highlight first color
         if (color === brushColor) btn.classList.add('active');
 
@@ -63,12 +63,12 @@ function buildColorPalette() {
             // Disable eraser
             isEraser = false;
             eraserBtn.classList.remove('active');
-            
+
             // Set Color
             brushColor = color;
             updateColorSelection(btn);
         };
-        
+
         colorPalette.appendChild(btn);
     });
 }
@@ -103,7 +103,7 @@ function getMousePos(evt) {
     // Scale pointer coordinates to the canvas' internal resolution
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    
+
     let clientX, clientY;
 
     if (evt.touches && evt.touches.length > 0) {
@@ -125,7 +125,7 @@ function startDrawing(e) {
     const pos = getMousePos(e);
     currentX = pos.x;
     currentY = pos.y;
-    
+
     // Draw a single dot if they just click
     ctx.beginPath();
     ctx.moveTo(currentX, currentY);
@@ -137,12 +137,12 @@ function startDrawing(e) {
 
 function draw(e) {
     if (!isDrawing) return;
-    
+
     // Prevent scrolling when touching the canvas
     if (e.cancelable) e.preventDefault();
 
     const pos = getMousePos(e);
-    
+
     ctx.beginPath();
     ctx.moveTo(currentX, currentY);
     ctx.lineTo(pos.x, pos.y);
@@ -184,7 +184,7 @@ galleryItems.forEach(item => {
         item.classList.add('active');
 
         const imgSrc = item.getAttribute('data-img');
-        
+
         // Show or hide overlay
         if (imgSrc) {
             overlayImg.src = imgSrc;
