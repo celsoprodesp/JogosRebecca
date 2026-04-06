@@ -44,7 +44,7 @@ const words = [
     // OBJETOS E CASA (20)
     { word: 'CASA', category: 'OBJETO' }, { word: 'MESA', category: 'OBJETO' }, { word: 'CADEIRA', category: 'OBJETO' }, { word: 'CAMA', category: 'OBJETO' }, { word: 'SOFA', category: 'OBJETO' },
     { word: 'JANELA', category: 'OBJETO' }, { word: 'PORTA', category: 'OBJETO' }, { word: 'ESPELHO', category: 'OBJETO' }, { word: 'RELOGIO', category: 'OBJETO' }, { word: 'TELEFONE', category: 'OBJETO' },
-    { word: 'COMPUTADOR', category: 'OBJETO' }, { word: 'CANETA', category: 'OBJETO' }, { word: 'Lapis', category: 'OBJETO' }, { word: 'CADERNO', category: 'OBJETO' }, { word: 'LIVRO', category: 'OBJETO' },
+    { word: 'COMPUTADOR', category: 'OBJETO' }, { word: 'CANETA', category: 'OBJETO' }, { word: 'LAPIS', category: 'OBJETO' }, { word: 'CADERNO', category: 'OBJETO' }, { word: 'LIVRO', category: 'OBJETO' },
     { word: 'MOCHILA', category: 'OBJETO' }, { word: 'TENIS', category: 'ROUPA' }, { word: 'VESTIDO', category: 'ROUPA' }, { word: 'CAMISETA', category: 'ROUPA' }, { word: 'CHAPÉU', category: 'ROUPA' },
 
     // CORES E FORMAS (20)
@@ -118,9 +118,10 @@ function initGame() {
 }
 
 function updateWordDisplay() {
-    const display = selectedWord.split('').map(l =>
-        guessedLetters.includes(l) ? l : '_'
-    ).join(' ');
+    const display = selectedWord.split('').map(l => {
+        if (l === ' ' || l === '-') return l;
+        return guessedLetters.includes(l) ? l : '_';
+    }).join(' ');
     document.getElementById('wordDisplay').innerText = display;
 
     if (!display.includes('_')) {

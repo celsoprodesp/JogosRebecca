@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Jogos Mágicos 🌈</title>
     <meta name="description" content="Um portal de jogos educativos e divertidos para crianças.">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
     <link rel="manifest" href="manifest.json">
@@ -37,12 +37,13 @@
                 <div class="play-btn">Jogar Agora!</div>
             </a>
 
-            <div class="game-card" style="opacity: 0.6; filter: grayscale(1); cursor: default;">
+            <!-- Quebra-Cabeça -->
+            <a href="puzzle.html" class="game-card" id="game-puzzle">
                 <div class="game-icon">🧩</div>
                 <h2>Quebra-Cabeça</h2>
-                <p style="margin-bottom: 20px; color: #666;">Em breve...</p>
-                <div class="play-btn" style="background-color: #ccc; box-shadow: none;">Bloqueado</div>
-            </div>
+                <p style="margin-bottom: 20px; color: #666;">Monte a figura divina!</p>
+                <div class="play-btn">Jogar Agora!</div>
+            </a>
         </main>
 
         <footer style="margin-top: 80px; color: #CC007A; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem;">
@@ -52,13 +53,19 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered! Scope: ', registration.scope);
+                navigator.serviceWorker.register('./sw.js?v=3')
+                    .then(reg => {
+                        console.log('SW registered!', reg);
+                        reg.onupdatefound = () => {
+                            const installingWorker = reg.installing;
+                            installingWorker.onstatechange = () => {
+                                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('New content available; please refresh.');
+                                }
+                            };
+                        };
                     })
-                    .catch(err => {
-                        console.log('Service Worker registration failed: ', err);
-                    });
+                    .catch(err => console.log('SW registration failed: ', err));
             });
         }
     </script>
