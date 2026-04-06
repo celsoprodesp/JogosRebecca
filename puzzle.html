@@ -80,14 +80,13 @@
             border-color: var(--pink-hot, #FF4DA6);
         }
 
-        /* Puzzle Board */
         .puzzle-board {
             width: 300px;
             height: 300px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            /* grid-template-columns set by JS */
+            /* grid-template-rows set by JS */
             gap: 0;
             background: #fff;
             border: 5px solid rgba(255, 255, 255, 0.9);
@@ -148,6 +147,38 @@
                 height: 60px;
             }
         }
+
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            background: white;
+            border: 3px solid #FF4DA6;
+            color: #9333EA;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .difficulty-btn:hover {
+            transform: translateY(-2px);
+            background: #FFF0F6;
+        }
+
+        .difficulty-btn.active {
+            background: #FF4DA6;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 77, 166, 0.4);
+        }
     </style>
 </head>
 
@@ -165,6 +196,13 @@
             <img src="jonas_baleia_color.png" class="gallery-item" data-img="jonas_baleia_color.png" alt="Jonas e a Baleia">
             <img src="davi_golias_color.png" class="gallery-item" data-img="davi_golias_color.png" alt="Davi e Golias">
             <img src="moises_mar_color.png" class="gallery-item" data-img="moises_mar_color.png" alt="Moisés Abrindo o Mar">
+        </div>
+
+        <div class="difficulty-selector" id="difficultySelector">
+            <button class="difficulty-btn" data-size="2">Fácil (2x2)</button>
+            <button class="difficulty-btn active" data-size="3">Médio (3x3)</button>
+            <button class="difficulty-btn" data-size="4">Difícil (4x4)</button>
+            <button class="difficulty-btn" data-size="5">Mestre (5x5)</button>
         </div>
 
         <div class="puzzle-board" id="puzzleBoard">
