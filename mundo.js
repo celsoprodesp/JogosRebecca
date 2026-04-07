@@ -166,8 +166,7 @@
 
         // Centralizar o foco no país com o mesmo enquadramento (offset)
         const center = getCountryCenter(targetCountry);
-        const offsetLat = center.lat > 70 ? center.lat - 15 : center.lat + 15;
-        world.pointOfView({ lat: offsetLat, lng: center.lng, altitude: 2.5 }, 1500);
+        world.pointOfView({ lat: center.lat, lng: center.lng, altitude: 2.2 }, 1500);
 
         if (window.confetti) {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#FF4DA6', '#FFD700', '#C084FC', '#86EFAC'] });
@@ -191,9 +190,7 @@
         world.polygonCapColor(world.polygonCapColor()); // Update highlights
         
         const center = getCountryCenter(targetCountry);
-        // Offset latitude by +15 degrees to push the country down so it's not covered by the UI panel
-        const offsetLat = center.lat > 70 ? center.lat - 15 : center.lat + 15;
-        world.pointOfView({ lat: offsetLat, lng: center.lng, altitude: 2.5 }, 1500);
+        world.pointOfView({ lat: center.lat, lng: center.lng, altitude: 2.2 }, 1500);
         
         // Show target info in panel
         const code = targetCountry.properties.ISO_A2 || targetCountry.properties.BRK_A2;
