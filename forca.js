@@ -19,14 +19,14 @@ const words = [
 
     // BRINQUEDOS E HOBBIES (30)
     { word: 'BONECA', category: 'BRINQUEDO' }, { word: 'CARRINHO', category: 'BRINQUEDO' }, { word: 'BOLA', category: 'BRINQUEDO' }, { word: 'PIPA', category: 'BRINQUEDO' }, { word: 'LEGO', category: 'BRINQUEDO' },
-    { word: 'QUEBRA-CABEÇA', category: 'BRINQUEDO' }, { word: 'PELUCIA', category: 'BRINQUEDO' }, { word: 'PATINS', category: 'BRINQUEDO' }, { word: 'BICICLETA', category: 'BRINQUEDO' }, { word: 'SKATE', category: 'BRINQUEDO' },
-    { word: 'CORDA', category: 'BRINQUEDO' }, { word: 'AMARELINHA', category: 'BRINQUEDO' }, { word: 'BALANÇO', category: 'BRINQUEDO' }, { word: 'ESCORREGADOR', category: 'BRINQUEDO' }, { word: 'PISCINA', category: 'BRINQUEDO' },
-    { word: 'AREIA', category: 'BRINQUEDO' }, { word: 'DESENHO', category: 'HOBBY' }, { word: 'PINTURA', category: 'HOBBY' }, { word: 'DANÇA', category: 'HOBBY' }, { word: 'MUSICA', category: 'HOBBY' },
+    { word: 'QUEBRA-CABECA', category: 'BRINQUEDO' }, { word: 'PELUCIA', category: 'BRINQUEDO' }, { word: 'PATINS', category: 'BRINQUEDO' }, { word: 'BICICLETA', category: 'BRINQUEDO' }, { word: 'SKATE', category: 'BRINQUEDO' },
+    { word: 'CORDA', category: 'BRINQUEDO' }, { word: 'AMARELINHA', category: 'BRINQUEDO' }, { word: 'BALANCO', category: 'BRINQUEDO' }, { word: 'ESCORREGADOR', category: 'BRINQUEDO' }, { word: 'PISCINA', category: 'BRINQUEDO' },
+    { word: 'AREIA', category: 'BRINQUEDO' }, { word: 'DESENHO', category: 'HOBBY' }, { word: 'PINTURA', category: 'HOBBY' }, { word: 'DANCA', category: 'HOBBY' }, { word: 'MUSICA', category: 'HOBBY' },
     { word: 'CANTO', category: 'HOBBY' }, { word: 'TEATRO', category: 'HOBBY' }, { word: 'PIANO', category: 'MUSICA' }, { word: 'FLAUTA', category: 'MUSICA' }, { word: 'VIOLAO', category: 'MUSICA' },
     { word: 'TAMBOR', category: 'MUSICA' }, { word: 'XADREZ', category: 'JOGO' }, { word: 'DOMINO', category: 'JOGO' }, { word: 'CARTA', category: 'JOGO' }, { word: 'VIDEO GAME', category: 'JOGO' },
 
     // COMIDA E BEBIDA (30)
-    { word: 'MAÇA', category: 'COMIDA' }, { word: 'BANANA', category: 'COMIDA' }, { word: 'MELANCIA', category: 'COMIDA' }, { word: 'UVA', category: 'COMIDA' }, { word: 'MORANGO', category: 'COMIDA' },
+    { word: 'MACA', category: 'COMIDA' }, { word: 'BANANA', category: 'COMIDA' }, { word: 'MELANCIA', category: 'COMIDA' }, { word: 'UVA', category: 'COMIDA' }, { word: 'MORANGO', category: 'COMIDA' },
     { word: 'LARANJA', category: 'COMIDA' }, { word: 'ABACAXI', category: 'COMIDA' }, { word: 'PERA', category: 'COMIDA' }, { word: 'MANGA', category: 'COMIDA' }, { word: 'COCO', category: 'COMIDA' },
     { word: 'BOLO', category: 'COMIDA' }, { word: 'DOCE', category: 'COMIDA' }, { word: 'SORVETE', category: 'COMIDA' }, { word: 'CHOCOLATE', category: 'COMIDA' }, { word: 'BISCOITO', category: 'COMIDA' },
     { word: 'PIZZA', category: 'COMIDA' }, { word: 'HAMBURGUER', category: 'COMIDA' }, { word: 'BATATA FRITA', category: 'COMIDA' }, { word: 'PIPOCA', category: 'COMIDA' }, { word: 'PAO', category: 'COMIDA' },
@@ -51,7 +51,7 @@ const words = [
     { word: 'AZUL', category: 'COR' }, { word: 'VERMELHO', category: 'COR' }, { word: 'AMARELO', category: 'COR' }, { word: 'VERDE', category: 'COR' }, { word: 'ROSA', category: 'COR' },
     { word: 'ROXO', category: 'COR' }, { word: 'PRETO', category: 'COR' }, { word: 'BRANCO', category: 'COR' }, { word: 'CINZA', category: 'COR' }, { word: 'MARROM', category: 'COR' },
     { word: 'LARANJA', category: 'COR' }, { word: 'DOURADO', category: 'COR' }, { word: 'PRATEADO', category: 'COR' }, { word: 'CIRCULO', category: 'FORMA' }, { word: 'QUADRADO', category: 'FORMA' },
-    { word: 'TRIANGULO', category: 'FORMA' }, { word: 'RETANGULO', category: 'FORMA' }, { word: 'CORAÇÃO', category: 'FORMA' }, { word: 'ESTRELA', category: 'FORMA' }, { word: 'DIAMANTE', category: 'FORMA' },
+    { word: 'TRIANGULO', category: 'FORMA' }, { word: 'RETANGULO', category: 'FORMA' }, { word: 'CORACAO', category: 'FORMA' }, { word: 'ESTRELA', category: 'FORMA' }, { word: 'DIAMANTE', category: 'FORMA' },
 ];
 
 // Masks revealed one-by-one per wrong guess (bottom → top = shoes first → hair last)
@@ -187,11 +187,11 @@ function endGame(isWin) {
         confetti({
             particleCount: 200, spread: 80, origin: { y: 0.6 },
             colors: ['#FF4DA6', '#C084FC', '#FFD700', '#86EFAC', '#F9A8D4'],
-            shapes: ['star','circle'],
+            shapes: ['star', 'circle'],
         });
         setTimeout(() => {
-            confetti({ particleCount: 100, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FF4DA6','#C084FC','#FFD700'] });
-            confetti({ particleCount: 100, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FF4DA6','#C084FC','#FFD700'] });
+            confetti({ particleCount: 100, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FF4DA6', '#C084FC', '#FFD700'] });
+            confetti({ particleCount: 100, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FF4DA6', '#C084FC', '#FFD700'] });
         }, 400);
 
     } else {
