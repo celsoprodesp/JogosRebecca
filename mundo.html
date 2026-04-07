@@ -32,23 +32,12 @@
         }
         .header-controls {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end; /* Empurra o botão de desafio para a direita */
             align-items: flex-start;
             pointer-events: auto;
+            padding-right: 10px;
         }
-        .back-btn {
-            background: white;
-            color: var(--pink-hot);
-            border: 3px solid var(--pink-hot);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-family: 'Bubblegum Sans', cursive;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 0 var(--pink-dark);
-            transition: all 0.2s;
-        }
+        /* Voltar link estilizado globalmente em style.css */
         .info-panel {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(5px);
@@ -89,7 +78,7 @@
 
     <div class="ui-overlay">
         <div class="header-controls">
-            <a href="index.html" class="back-btn">⬅ Voltar</a>
+            <a href="index.html" class="back-link">← Voltar</a>
             <div id="challenge-btn" class="challenge-box">Me dê um desafio! ✨</div>
         </div>
 

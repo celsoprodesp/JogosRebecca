@@ -219,3 +219,31 @@ header {
   .game-card h2 { font-size: 2rem; }
   .play-btn { font-size: 1.2rem; padding: 12px 24px; }
 }
+
+/* ── BOTÃO VOLTAR (PADRONIZADO) ── */
+.back-link {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, var(--pink-hot), var(--lavender-dark));
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  padding: 8px 20px;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(150, 0, 100, 0.3);
+  font-family: 'Bubblegum Sans', cursive;
+  transition: all 0.15s;
+  z-index: 100;
+}
+
+.back-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.back-link:active {
+  transform: translateY(2px);
+}
