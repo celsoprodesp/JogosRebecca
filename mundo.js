@@ -10,11 +10,18 @@
 
     let world;
     let countriesData = [];
+    let translations = {}; // PT-BR Translations
     let targetCountry = null;
     let isChallengeActive = false;
 
-    // Same dataset as Globe.gl official examples
+    // Translation Source (ISO 3166-1 alpha-2 -> PT-BR)
+    const TRANSLATIONS_URL = 'https://raw.githubusercontent.com/umpirsky/country-list/master/data/pt_BR/country.json';
     const GEOJSON_URL = 'https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson';
+
+    function getCountryName(d) {
+        const code = d.properties.ISO_A2 || d.properties.BRK_A2;
+        return translations[code] || d.properties.NAME;
+    }
 
     function getFlagEmoji(countryCode) {
         if (!countryCode || countryCode === '-99') return '🌍';
@@ -51,7 +58,7 @@
                 })
                 .polygonLabel(d => `
                     <div style="background: white; color: #FF4DA6; padding: 10px; border-radius: 10px; border: 2px solid #FF4DA6; font-family: 'Bubblegum Sans'; font-size: 1.2rem; pointer-events: none;">
-                        <b>${d.properties.NAME}</b>
+                        <b>${getCountryName(d)}</b>
                     </div>
                 `);
 
@@ -70,7 +77,7 @@
     }
 
     function selectCountry(d) {
-        const name = d.properties.NAME;
+        const name = getCountryName(d);
         const code = d.properties.ISO_A2 || d.properties.BRK_A2;
         
         countryNameEl.textContent = name;
@@ -78,7 +85,7 @@
         infoPanel.style.display = 'block';
 
         if (isChallengeActive) {
-            if (d.properties.NAME === targetCountry.properties.NAME) {
+            if (name === getCountryName(targetCountry)) {
                 handleWin();
             } else {
                 challengeFeedbackEl.textContent = "Não é esse! Tente novamente! ✨";
@@ -94,7 +101,7 @@
         if (countriesData.length === 0) return;
         isChallengeActive = true;
         targetCountry = countriesData[Math.floor(Math.random() * countriesData.length)];
-        challengeBtn.textContent = `Encontre: ${targetCountry.properties.NAME} 🔍`;
+        challengeBtn.textContent = `Encontre: ${getCountryName(targetCountry)} 🔍`;
         challengeBtn.style.background = '#FFD700';
         infoPanel.style.display = 'none';
         world.pointOfView({ altitude: 3.5 }, 1000);
@@ -113,16 +120,19 @@
     }
 
     // Load data and start
-    fetch(GEOJSON_URL)
-        .then(res => res.json())
-        .then(data => {
-            countriesData = data.features;
-            initGlobe();
-        })
-        .catch(err => {
-            console.error('Erro ao buscar GeoJSON:', err);
-            initGlobe(); // Try anyway with empty data
-        });
+    Promise.all([
+        fetch(GEOJSON_URL).then(res => res.json()),
+        fetch(TRANSLATIONS_URL).then(res => res.json())
+    ])
+    .then(([geojson, translationsData]) => {
+        countriesData = geojson.features;
+        translations = translationsData;
+        initGlobe();
+    })
+    .catch(err => {
+        console.error('Erro ao buscar dados:', err);
+        initGlobe(); // Try anyway with empty data
+    });
 
     challengeBtn.addEventListener('click', startChallenge);
 })();
