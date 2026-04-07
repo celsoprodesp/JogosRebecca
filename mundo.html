@@ -21,21 +21,21 @@
         }
         .ui-overlay {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
+            inset: 0;
+            padding: 30px;
             pointer-events: none;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            justify-content: space-between; /* Distribui topo, centro e base */
+            align-items: center;
             z-index: 100;
         }
         .header-controls {
+            width: 100%;
             display: flex;
-            justify-content: flex-end; /* Empurra o botão de desafio para a direita */
+            justify-content: flex-end;
             align-items: flex-start;
-            pointer-events: auto;
-            padding-right: 10px;
+            pointer-events: none; /* Deixa cliques passarem, exceto nos filhos com auto */
         }
         /* Voltar link estilizado globalmente em style.css */
         .info-panel {
@@ -78,8 +78,7 @@
 
     <div class="ui-overlay">
         <div class="header-controls">
-            <a href="index.html" class="back-link">← Voltar</a>
-            <div id="challenge-btn" class="challenge-box">Me dê um desafio! ✨</div>
+            <a href="index.html" class="back-link" style="pointer-events: auto;">← Voltar</a>
         </div>
 
         <div id="info-panel" class="info-panel">
@@ -87,6 +86,8 @@
             <h2 id="country-name">País Mágico</h2>
             <p id="challenge-feedback" style="color: #666; font-size: 1.1rem;"></p>
         </div>
+
+        <div id="challenge-btn" class="challenge-box">Me dê um desafio! ✨</div>
     </div>
 
     <script src="mundo.js"></script>
