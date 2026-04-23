@@ -6,14 +6,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Jogos Mágicos 🌈</title>
     <meta name="description" content="Um portal de jogos educativos e divertidos para crianças.">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff4d94">
+    <style>
+        /* ── Offline Button ── */
+        .offline-wrapper {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .offline-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            border: 4px solid rgba(255,255,255,0.9);
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(150, 0, 100, 0.25);
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offline-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+
+        /* State: not cached */
+        .offline-btn.state-online {
+            background: linear-gradient(135deg, #9333EA, #C084FC);
+            color: white;
+        }
+
+        /* State: downloading */
+        .offline-btn.state-downloading {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #7C3AED;
+            pointer-events: none;
+        }
+
+        /* State: cached / offline ready */
+        .offline-btn.state-offline {
+            background: linear-gradient(135deg, #22C55E, #86EFAC);
+            color: white;
+        }
+
+        .offline-btn:hover:not(.state-downloading) {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(150, 0, 100, 0.35);
+        }
+
+        .offline-btn:active:not(.state-downloading) {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 4px 10px rgba(150, 0, 100, 0.25);
+        }
+
+        .offline-icon {
+            font-size: 1.5rem;
+            display: inline-block;
+        }
+
+        .offline-btn.state-downloading .offline-icon {
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .offline-status {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 1rem;
+            color: #9333EA;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(5px);
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.9);
+            display: none;
+        }
+
+        .offline-status.visible {
+            display: inline-block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Network indicator */
+        .network-badge {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 0.95rem;
+            z-index: 200;
+            transition: all 0.3s;
+            border: 3px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .network-badge.online {
+            background: linear-gradient(135deg, #22C55E, #86EFAC);
+            color: white;
+        }
+
+        .network-badge.offline {
+            background: linear-gradient(135deg, #FF4DA6, #CC007A);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 12px rgba(255, 77, 166, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(255, 77, 166, 0.6); }
+        }
+
+        @media (max-width: 450px) {
+            .offline-btn { font-size: 1rem; padding: 10px 20px; }
+            .network-badge { font-size: 0.8rem; padding: 6px 12px; top: 10px; right: 10px; }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Network status badge -->
+    <div id="networkBadge" class="network-badge">
+        <span>📡</span> <span id="networkText">Online</span>
+    </div>
+
     <div class="portal-container">
         <header>
             <h1 class="logo">Portal Mágico ✨</h1>
@@ -54,28 +195,137 @@
             </a>
         </main>
 
-        <footer style="margin-top: 80px; color: #CC007A; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem;">
+        <!-- Offline Mode Section -->
+        <div class="offline-wrapper" id="offlineWrapper">
+            <button class="offline-btn state-online" id="offlineBtn">
+                <span class="offline-icon">📲</span>
+                <span id="offlineBtnText">Salvar para Offline</span>
+            </button>
+            <div class="offline-status" id="offlineStatus"></div>
+        </div>
+
+        <footer style="margin-top: 40px; color: #CC007A; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem;">
             Feito com ❤️ pelo Papai para você!
         </footer>
     </div>
+
     <script>
+        // ── Service Worker Registration ──
+        let swRegistration = null;
+
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=3')
-                    .then(reg => {
-                        console.log('SW registered!', reg);
-                        reg.onupdatefound = () => {
-                            const installingWorker = reg.installing;
-                            installingWorker.onstatechange = () => {
-                                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    console.log('New content available; please refresh.');
-                                }
-                            };
+            window.addEventListener('load', async () => {
+                try {
+                    swRegistration = await navigator.serviceWorker.register('./sw.js?v=5');
+                    console.log('SW registered!', swRegistration);
+
+                    swRegistration.onupdatefound = () => {
+                        const installingWorker = swRegistration.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('Novo conteúdo disponível; recarregue a página.');
+                            }
                         };
-                    })
-                    .catch(err => console.log('SW registration failed: ', err));
+                    };
+
+                    // Wait for SW to be ready, then check cache status
+                    await navigator.serviceWorker.ready;
+                    setTimeout(checkCacheStatus, 500);
+                } catch (err) {
+                    console.log('SW registration failed: ', err);
+                }
             });
         }
+
+        // ── Offline Button Logic ──
+        const offlineBtn = document.getElementById('offlineBtn');
+        const offlineBtnText = document.getElementById('offlineBtnText');
+        const offlineStatus = document.getElementById('offlineStatus');
+        const networkBadge = document.getElementById('networkBadge');
+        const networkText = document.getElementById('networkText');
+
+        function checkCacheStatus() {
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'GET_CACHE_STATUS' });
+            }
+        }
+
+        // Listen for messages from SW
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.type === 'CACHE_STATUS') {
+                const { cachedCount, totalNeeded } = event.data;
+                // Consider "offline ready" if we cached most local + CDN resources
+                if (cachedCount >= totalNeeded - 2) {
+                    setOfflineReady();
+                } else {
+                    setNeedsDownload(cachedCount, totalNeeded);
+                }
+            }
+
+            if (event.data.type === 'CACHE_COMPLETE') {
+                const { succeeded, failed, total } = event.data;
+                if (failed <= 2) {
+                    setOfflineReady();
+                    offlineStatus.textContent = '✅ Tudo salvo! Agora funciona sem internet!';
+                } else {
+                    offlineBtn.className = 'offline-btn state-online';
+                    offlineBtnText.textContent = 'Tentar novamente';
+                    offlineStatus.textContent = `⚠️ ${failed} arquivos falharam. Tente com internet estável.`;
+                }
+                offlineStatus.className = 'offline-status visible';
+            }
+        });
+
+        function setOfflineReady() {
+            offlineBtn.className = 'offline-btn state-offline';
+            offlineBtnText.textContent = 'Pronto para Offline! ✨';
+            offlineBtn.querySelector('.offline-icon').textContent = '✅';
+        }
+
+        function setNeedsDownload(cached, total) {
+            offlineBtn.className = 'offline-btn state-online';
+            offlineBtnText.textContent = 'Salvar para Offline';
+            offlineBtn.querySelector('.offline-icon').textContent = '📲';
+        }
+
+        offlineBtn.addEventListener('click', () => {
+            if (offlineBtn.classList.contains('state-downloading')) return;
+            
+            if (offlineBtn.classList.contains('state-offline')) {
+                // Already cached — offer to re-download
+                offlineBtn.className = 'offline-btn state-downloading';
+                offlineBtnText.textContent = 'Atualizando...';
+                offlineBtn.querySelector('.offline-icon').textContent = '⏳';
+                offlineStatus.textContent = '🔄 Atualizando os jogos...';
+                offlineStatus.className = 'offline-status visible';
+            } else {
+                offlineBtn.className = 'offline-btn state-downloading';
+                offlineBtnText.textContent = 'Baixando tudo...';
+                offlineBtn.querySelector('.offline-icon').textContent = '⏳';
+                offlineStatus.textContent = '📦 Salvando jogos no seu dispositivo...';
+                offlineStatus.className = 'offline-status visible';
+            }
+
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'CACHE_ALL' });
+            }
+        });
+
+        // ── Network Status Detection ──
+        function updateNetworkStatus() {
+            if (navigator.onLine) {
+                networkBadge.className = 'network-badge online';
+                networkBadge.style.display = 'none';
+            } else {
+                networkBadge.className = 'network-badge offline';
+                networkBadge.style.display = 'inline-flex';
+                networkText.textContent = 'Modo Offline';
+            }
+        }
+
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+        updateNetworkStatus();
     </script>
 </body>
 
