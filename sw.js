@@ -17,6 +17,8 @@ const LOCAL_URLS = [
   './mundo.js',
   './caca-palavras.js',
   './sudoku.js',
+  './sudoku_icon.png',
+  './caca_icon.png',
   './icon.svg',
   './manifest.json',
   './bg_garden.png',

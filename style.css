@@ -47,8 +47,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(255, 240, 255, 0.25);
-  backdrop-filter: blur(1px);
+  background: rgba(255, 240, 255, 0.15);
   pointer-events: none;
   z-index: 0;
 }
@@ -147,11 +146,22 @@ header {
 }
 
 .game-icon {
-  font-size: 5.5rem;
+  width: 120px;
+  height: 120px;
   margin-bottom: 25px;
   filter: drop-shadow(0 10px 5px rgba(0,0,0,0.2));
   transform: scale(1);
   transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5.5rem; /* For emoji fallback */
+}
+
+.game-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .game-card:hover .game-icon {
