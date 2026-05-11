@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portal-magico-v5';
+const CACHE_NAME = 'portal-magico-v6';
 
 // ── Recursos locais ──
 const LOCAL_URLS = [
@@ -8,11 +8,15 @@ const LOCAL_URLS = [
   './pintura.html',
   './puzzle.html',
   './mundo.html',
+  './caca-palavras.html',
+  './sudoku.html',
   './style.css',
   './pintura.js',
   './forca.js',
   './puzzle.js',
   './mundo.js',
+  './caca-palavras.js',
+  './sudoku.js',
   './icon.svg',
   './manifest.json',
   './bg_garden.png',
